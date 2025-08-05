@@ -62,4 +62,79 @@ python webui.py
 ```
 Access at http://localhost:7860
 
-![Demo GIF](assets/demo) <!-- Replace with your actual demo GIF -->
+![Demo GIF](assets/demo.gif) <!-- Replace with your actual demo GIF -->
+
+## RAG Evaluation 📊
+To test retrieval-augmented generation on MBPP samples:
+
+```bash
+python rag/rag_runner.py
+```
+Outputs evaluation results to `rag_results.json`
+
+## Project Structure 📂
+```text
+.
+├── app.py                # CLI entry point
+├── webui.py              # Gradio interface
+├── graph.py              # LangGraph state machine
+├── router.py             # LLM intent classifier
+├── nodes/
+│   ├── generate_code.py  # Code generation agent
+│   └── explain_code.py   # Code explanation agent
+├── rag/                  # Retrieval-Augmented Generation
+│   ├── embed_examples.py # Dataset vectorization
+│   ├── retrieve.py       # Similarity search
+│   └── rag_runner.py     # Evaluation pipeline
+    └── mbpp_samples.json     # Benchmark dataset
+```
+## Key Implementation Details 🔍
+**1. Smart Intent Classification**
+Uses Ollama LLM to classify user input into JSON:
+
+```python
+# router.py
+def classify_intent(user_input):
+    output = llm.invoke(intent_prompt)
+    return json.loads(output.content)  # {"task": "...", "user_input": "..."}
+```
+**2. LangGraph State Machine**
+```python
+# graph.py
+builder = StateGraph(ChatState)
+builder.add_node("router", route_node)
+builder.add_conditional_edges(
+    "router",
+    route_condition,
+    {"generate_code": "generate_code", "explain_code": "explain_code"}
+)
+```
+**3. RAG Pipeline**
+```python
+# retrieve.py
+def retrieve_similar_examples(query):
+    query_vec = model.encode([query])
+    scores = cosine_similarity(query_vec, embeddings)[0]
+    return [examples[i] for i in top_indices]
+```
+## Resources 📚
+
+### Official Documentation
+- [LangGraph Documentation](https://langchain.com/langgraph) - Learn about stateful LLM workflows
+- [Ollama Models](https://ollama.ai/library) - Browse available LLM models
+
+### Research Papers
+- [MBPP Dataset Paper](https://arxiv.org/abs/2108.07732) - "Measuring Coding Challenge Competence With APPS"
+
+### Tutorials & Guides
+- [LangGraph YouTube Tutorial](https://www.youtube.com/watch?v=jGg_1h0qzaM) (2.5hr in-depth guide)
+- [LangChain vs LangGraph](https://www.youtube.com/watch?v=qAF1NjEVHhY) - Comparison video
+- [State Machines in Production](https://dev.to/jamesli/langgraph-state-machines-managing-complex-agent-task-flows-in-production-36f4) - Blog post
+
+### Datasets
+- [MBPP Dataset](https://github.com/google-research/google-research/tree/master/mbpp) - 974 programming problems with test cases
+
+### Community
+- [LangChain Discord](https://discord.gg/langchain) - Get live support
+- [Ollama GitHub](https://github.com/jmorganca/ollama) - Report issues or contribute
+
