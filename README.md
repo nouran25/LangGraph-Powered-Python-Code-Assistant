@@ -5,8 +5,6 @@
 
 A stateful Python coding assistant that generates, explains, and evaluates code using LangGraph orchestration, RAG, and Ollama LLMs. Supports both CLI and Gradio web interface.
 
-![Demo GIF](assets/demo.gif) <!-- Replace with your actual demo GIF -->
-
 ## Key Features ✨
 
 - **Intent-Aware Routing**: LLM classifies requests as `generate_code` or `explain_code`
@@ -27,3 +25,41 @@ graph TD
     C --> E[Output]
     D --> E
     F[MBPP Dataset] -->|RAG| C
+  ```
+## Installation ⚙️
+
+Clone the repo and install dependencies:
+
+```bash
+git clone https://github.com/nouran25/LangGraph-Powered-Python-Code-Assistant.git
+cd LangGraph-Powered-Python-Code-Assistant
+pip install -r requirements.txt
+```
+### Ollama Setup
+  ```bash
+  ollama pull mistral  # Default model
+  ollama pull llama3   # Alternative for RAG
+```
+## Usage 🚀
+### CLI Version
+```bash
+python app.py
+```
+Example:
+
+```text
+User: Write a function to reverse a string
+Assistant: Here's the Python code:
+```python
+def reverse_string(s):
+    return s[::-1]
+```
+![Demo GIF](assets/output.png) <!-- Replace with your actual demo GIF -->
+
+### Web Interface
+```bash
+python webui.py
+```
+Access at http://localhost:7860
+
+![Demo GIF](assets/demo) <!-- Replace with your actual demo GIF -->
