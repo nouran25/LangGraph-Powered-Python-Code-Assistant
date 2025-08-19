@@ -5,6 +5,18 @@
 
 A stateful Python coding assistant that generates, explains, and evaluates code using LangGraph orchestration, RAG, and Ollama LLMs. Supports both CLI and Gradio web interface.
 
+---
+## 🗂️ Table of Contents
+
+- [Key Features ✨](#-key-features)
+- [Architecture 🏗️](#-architecture)
+- [Installation ⚙️](#-installation)
+- [Usage 🚀](#-usage)
+- [RAG Evaluation 📊](#-rag-evaluation)
+- [Project Structure 📂](#-project-structure)
+- [Key Implementation Details 🔍](#-key-implementation-details)
+- [Resources 📚](#-resources)
+---
 ## Key Features ✨
 
 - **Intent-Aware Routing**: LLM classifies requests as `generate_code` or `explain_code`
